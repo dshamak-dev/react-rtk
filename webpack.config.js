@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => {
   const rootFolder = './public';
-  const buildFolder = './dist';
+  const buildFolder = './docs';
 
   return {
     entry: './src/index.ts',

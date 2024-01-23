@@ -6,7 +6,7 @@
          "src/*"
       ]
     },
-    "outDir": "./dist/",
+    "outDir": "docs",
     "noImplicitAny": false,
     "module": "esnext",
     "target": "es5",

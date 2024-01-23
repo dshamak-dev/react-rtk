@@ -1,0 +1,9 @@
+.enemy {
+  --bg-rgb: 0,0,0;
+
+  color: white;
+  background-color: rgb(var(--bg-rgb));
+}
+.enemy.blend {
+  mix-blend-mode: difference;
+}

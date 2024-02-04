@@ -1,7 +1,9 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import classNames from "classnames";
 
-export const Button = ({ children, className = null, ...other }) => {
+export interface ButtonProps extends PropsWithChildren<any> {}
+
+export const Button: React.FC<ButtonProps> = ({ children, className = null, ...other }) => {
   return (
     <button
       {...other}

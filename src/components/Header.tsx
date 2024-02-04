@@ -2,11 +2,11 @@ import React, { useMemo } from "react";
 
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { selector as userSelector } from "src/store/user.store";
+import { selector as userSelector } from "src/namespaces/user/user.store";
 import { Button } from "src/components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
-import { ItemCard } from "src/entities/item/ItemCard";
+import { ItemCard } from "src/namespaces/item/ItemCard";
 import { PopupButton } from "src/components/PopupButton";
 
 const counters: { key: "coins" | "experience"; text: string }[] = [

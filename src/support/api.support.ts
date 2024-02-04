@@ -17,3 +17,9 @@ class StorageRequest {
 }
 
 export const storageRequest = new StorageRequest();
+
+export const delayMS = (ms: number): Promise<unknown> => {
+  return new Promise((res) => {
+    setTimeout(res, ms);
+  });
+};

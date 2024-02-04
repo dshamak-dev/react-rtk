@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Enemy } from "src/entities/enemy/enemy.model";
+import { Enemy } from "src/namespaces/enemy/enemy.model";
+import { removeShopItems } from "src/pages/shop/shop.support";
+import { copyObject } from "src/support/object.support";
 
 const initialState = {
   items: [],
@@ -26,13 +28,25 @@ export const saveState = (state) => {
     return localStorage.removeItem(SHOP_STORE_NAME);
   }
 
-  localStorage.setItem(SHOP_STORE_NAME, JSON.stringify(state));
+  // localStorage.setItem(SHOP_STORE_NAME, JSON.stringify(state));
 };
 
 export const shopSlice = createSlice({
   name: SHOP_STORE_NAME,
   initialState: loadState() || initialState,
-  reducers: {},
+  reducers: {
+    set: (state, { payload }) => {
+      Object.assign(state, payload);
+    },
+    removeItems: (state, { payload }) => {
+      if (!payload?.length) {
+        return state;
+      }
+
+      const items = copyObject(state.items) || [];
+      state.items = removeShopItems(items, payload);
+    },
+  },
 });
 
 export const shopReducer = shopSlice.reducer;

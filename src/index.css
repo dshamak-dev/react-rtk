@@ -1,7 +1,11 @@
+@import url('./styles/theme.css');
+@import url('./styles/animation.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply text-white bg-sky-900;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }

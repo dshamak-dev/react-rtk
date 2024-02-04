@@ -1,13 +1,16 @@
 import React, { useMemo } from "react";
-import { Enemy } from "src/entities/enemy/Enemy";
+import { Enemy } from "src/namespaces/enemy/Enemy";
 import { Header } from "src/components/Header";
 import { Button } from "src/components/Button";
-import { ItemCard } from "src/entities/item/ItemCard";
+import { ItemCard } from "src/namespaces/item/ItemCard";
 import { AppLink } from "src/components/AppLink";
 import { useDispatch, useSelector } from "react-redux";
-import { createRandomEnemy } from "src/entities/enemy/enemy.factory";
-import { actions as userActions } from "src/store/user.store";
+import { createRandomEnemy } from "src/namespaces/enemy/enemy.factory";
+import { actions as userActions } from "src/namespaces/user/user.store";
 import { battleActions, battleSelector } from "src/store/battle.store";
+import { Scene } from "src/components/molecules/Scene";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDragon } from "@fortawesome/free-solid-svg-icons";
 
 export default function Battle() {
   const { enemy } = useSelector(battleSelector);
@@ -51,9 +54,7 @@ export default function Battle() {
     const isAlive = enemy.health > 0;
 
     if (isAlive) {
-      return (
-        <Enemy />
-      );
+      return <Enemy />;
     }
 
     const { items = [] } = enemy;
@@ -96,11 +97,8 @@ export default function Battle() {
   }, [enemy]);
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <Header />
-      <div className="h-screen flex items-center justify-center">
-        {content}
-      </div>
-    </main>
+    <Scene name="battle" navigation={false}>
+      {content}
+    </Scene>
   );
 }

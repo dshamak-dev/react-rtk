@@ -1,19 +1,14 @@
-import React from "react";
-import { AppLink } from "src/components/AppLink";
-import { Header } from "src/components/Header";
+import React, { useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { shopSelector } from "src/store/shop.store";
+import { Scene } from "src/components/molecules/Scene";
 
-export default function Camp() {
+export const CampPage = () => {
+  const dispatch = useDispatch();
+  const [showSell, setShowSell] = useState(false);
+  const shop = useSelector(shopSelector);
+
   return (
-    <main className="flex h-screen flex-col">
-      <Header />
-      <div className="h-full flex items-center justify-center gap-4 py-16">
-        <AppLink to="battle" className="underline">
-          explore
-        </AppLink>
-        <AppLink to="shop" className="underline">
-          shop
-        </AppLink>
-      </div>
-    </main>
+    <Scene name="camp">{null}</Scene>
   );
 }

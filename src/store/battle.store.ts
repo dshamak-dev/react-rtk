@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Enemy } from "src/entities/enemy/enemy.model";
+import { Enemy } from "src/namespaces/enemy/enemy.model";
 
 const initialState = {
   enemy: null,

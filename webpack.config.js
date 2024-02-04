@@ -9,7 +9,7 @@ module.exports = (env) => {
   const buildFolder = './docs';
 
   return {
-    entry: './src/index.ts',
+    entry: path.resolve(__dirname, './src/index.ts'),
     output: {
       chunkFilename: '[name].[contenthash].js',
       filename: '[name].[contenthash].js',
@@ -17,7 +17,7 @@ module.exports = (env) => {
       asyncChunks: true,
       path: path.resolve(__dirname, buildFolder),
       clean: true,
-      publicPath: './',
+      publicPath: env.development ? '/' : './',
     },
     // watchOptions: {
     //   ignored: /node_modules/,

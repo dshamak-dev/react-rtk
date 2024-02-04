@@ -13,9 +13,10 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.test.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

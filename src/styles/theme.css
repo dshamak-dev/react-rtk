@@ -1,0 +1,81 @@
+:root {
+  --white: 255, 255, 255;
+  /* red */
+  --red-dark: 91, 39, 38;
+  --red-light: 255, 110, 110;
+  /* brown */
+  --brown-light: 160, 100, 64;
+  /* green */
+  --green-light: 80, 220, 200;
+  /* yellow */
+  --yelow-ligh: 255, 200, 90;
+
+  /* defaults */
+  --bg-color: rgb(var(--red-dark));
+  --text-color: rgb(var(--white));
+}
+
+.scene-wrap {
+  @apply: relative;
+}
+
+/* .scene-wrap:before,
+.scene-wrap:after {
+  content: "";
+
+  z-index: -1;
+
+  @apply absolute h-full w-4 opacity-20 bg-white;
+}
+.scene-wrap:before {
+  @apply left-4;
+}
+.scene-wrap:after {
+  @apply right-4;
+} */
+
+header {
+  background-color: rgb(var(--brown-light));
+}
+
+.flag {
+  --width: 32px;
+  --bg-color: rgb(var(--red-light));
+  --text-color: rgb(var(--white));
+
+  width: var(--width);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: calc(var(--width) / 2);
+
+  @apply relative py-2 flex justify-center items-center;
+}
+.flag:before,
+.flag:after {
+  content: "";
+
+  @apply absolute;
+}
+
+.flag:before {
+  --width: 140%;
+  --height: 6px;
+
+  width: var(--width);
+  height: var(--height);
+  top: calc(var(--height) * -1);
+  left: calc(50% - var(--width) / 2);
+
+  background-color: var(--bg-color);
+}
+
+.flag:after {
+  width: var(--width);
+  top: 100%;
+  left: 0;
+
+  border: calc(var(--width) / 2) solid transparent;
+  border-left-color: var(--bg-color);
+  border-right-color: var(--bg-color);
+  border-top-color: var(--bg-color);
+}

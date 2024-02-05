@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack serve --mode=development --env development",
     "build": "webpack --mode=production --env production",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test-watch": "jest --coverage --watch"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",

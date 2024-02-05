@@ -1,12 +1,12 @@
 import { IItem } from "src/namespaces/item/item.model";
-import { copyObject } from "src/support/object.support";
+import { copyObject, arrayToMap } from "src/support/object.support";
 
 export const appendItems = (current: IItem[], payload: IItem[]): IItem[] => {
   if (!payload?.length) {
     return current;
   }
 
-  const prevItems = copyObject(current) || [];
+  const prevItems = arrayToMap<IItem>(copyObject(current) || [], "id");
   const entries = payload.reduce((prev, it) => {
     const { id, quantity } = it;
     const item = copyObject(prev[id] || { ...it, quantity: 0 });

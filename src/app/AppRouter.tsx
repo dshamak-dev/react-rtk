@@ -13,35 +13,55 @@ import Shop from "src/pages/shop/Shop.page";
 import {
   selector as appSelector,
   actions as appActions,
-} from "src/store/app.store";
+} from "src/app/app.store";
 import { preventBrowserHistory } from "src/support/browser.support";
+import {
+  faBriefcase,
+  faCampground,
+  faDungeon,
+  faStore,
+} from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { RaidPage } from "src/pages/raid/Raid.page";
 
-export type AppRouteType = "items" | "battle" | "lobby" | "camp" | "shop";
+export type AppRouteType =
+  | "items"
+  | "battle"
+  | "lobby"
+  | "raid"
+  | "camp"
+  | "shop";
 
-export const navLinks: { text: string; href: AppRouteType }[] = [
-  {
-    text: "camp",
-    href: "camp",
-  },
-  {
-    text: "items",
-    href: "items",
-  },
-  {
-    text: "shop",
-    href: "shop",
-  },
-  {
-    text: "lobby",
-    href: "lobby",
-  },
-];
+export const navLinks: { text: string; href: AppRouteType; icon: IconProp }[] =
+  [
+    {
+      text: "camp",
+      href: "camp",
+      icon: faCampground,
+    },
+    {
+      text: "items",
+      href: "items",
+      icon: faBriefcase,
+    },
+    {
+      text: "shop",
+      href: "shop",
+      icon: faStore,
+    },
+    {
+      text: "lobby",
+      href: "lobby",
+      icon: faDungeon,
+    },
+  ];
 const navigateEventName = "navigateTo";
 
-export const handleNavigate = (pathname: AppRouteType) => {
+export const handleNavigate = (pathname: AppRouteType, query?: Object) => {
   const event = new CustomEvent(navigateEventName, {
     detail: {
       pathname,
+      query,
     },
   });
 
@@ -49,19 +69,20 @@ export const handleNavigate = (pathname: AppRouteType) => {
 };
 
 export const AppRouter = () => {
-  const { pathname } = useSelector(appSelector);
+  const { pathname, query } = useSelector(appSelector);
   const dispatch = useDispatch();
 
-  const navigateTo = (path) => {
-    dispatch(appActions.navigateTo(path));
+  const navigateTo = (pathname, query) => {
+    dispatch(appActions.navigateTo({ pathname, query }));
   };
 
   useEffect(() => {
     const handler = (e: CustomEvent) => {
       const _path = e.detail?.pathname;
+      const _query = e.detail?.query;
 
       if (_path) {
-        navigateTo(_path);
+        navigateTo(_path, _query);
       }
     };
 
@@ -89,12 +110,12 @@ export const AppRouter = () => {
     case "shop": {
       return <Shop />;
     }
+    case "raid": {
+      return <RaidPage id={query?.id} />;
+    }
+    default:
     case "camp": {
       return <CampPage />;
-    }
-    default: {
-      navigateTo("camp");
-      return null;
     }
   }
 };

@@ -42,3 +42,44 @@ export const isDateAfter = (
 ): boolean => {
   return !isDateBefore(a, b);
 };
+
+export const dateDifference = (
+  start: string | number,
+  end: string | number
+) => {
+  const startTime = new Date(start).getTime();
+  const endTime = new Date(end).getTime();
+
+  return endTime - startTime;
+};
+
+export const timeToDateText = (date: string | number) => {
+  const time = new Date(date).getTime();
+
+  let timeLeft = time;
+  const days = Math.floor(time / msInDay);
+  timeLeft -= days * msInDay;
+
+  const hours = Math.floor(timeLeft / msInHour);
+  timeLeft -= hours * msInHour;
+
+  const minutes = Math.floor(timeLeft / msInMinute);
+  timeLeft -= minutes * msInMinute;
+
+  if (!days && !hours && !minutes) {
+    return null;
+  }
+
+  const parts = [];
+  if (days) {
+    parts.push(`${days}d`);
+  }
+  if (hours) {
+    parts.push(`${hours}h`);
+  }
+  if (minutes) {
+    parts.push(`${minutes}m`);
+  }
+
+  return parts.join(" ");
+};

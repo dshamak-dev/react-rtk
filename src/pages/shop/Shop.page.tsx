@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { ClaimResourcesButton } from "src/components/molecules/ClaimResourcesButton";
 import { shopAdResources } from "src/pages/shop/shop.model";
-import { ResourceValue } from "src/components/atoms/ResourceValue";
+import { UserResourceValue } from "src/components/atoms/UserResourceValue";
 
 export default function Shop() {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function Shop() {
         <div className="flex w-full justify-end">
           <div className="flex gap-2 px-4 py-2 bg-white text-black items-center">
             <ResourceIcon type="coin" />
-            <ResourceValue type="coin" />
+            <UserResourceValue type="coin" />
           </div>
         </div>
         <div className="flex flex-col gap-4 p-4 border bg-white text-black">

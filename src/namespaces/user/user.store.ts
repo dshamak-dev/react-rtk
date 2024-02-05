@@ -128,5 +128,5 @@ export const userCoinsSelector = (state) => {
 export const userResourcesSelector = (state) => {
   const store = state[STORE_NAME];
 
-  return store?.resources || [];
+  return store?.resources;
 };

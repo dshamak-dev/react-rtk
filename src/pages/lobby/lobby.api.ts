@@ -18,3 +18,11 @@ export const getRaids = async (): Promise<IRaid[]> => {
 
   return items;
 };
+
+export const getRaid = async (id: string): Promise<IRaid> => {
+  const table = db.table;
+
+  const raid = table?.items?.find((it) => it.id === id);
+
+  return raid;
+};

@@ -1,4 +1,9 @@
 :root {
+  --black: 0,0,0;
+  /* grey */
+  --grey-dark: 45, 45, 45;
+  --grey-default: 71, 71, 71;
+  /* white */
   --white: 255, 255, 255;
   /* red */
   --red-dark: 91, 39, 38;
@@ -11,8 +16,19 @@
   --yelow-ligh: 255, 200, 90;
 
   /* defaults */
-  --bg-color: rgb(var(--red-dark));
-  --text-color: rgb(var(--white));
+  --bg-opacity: 1;
+
+  --bg-default: rgba(var(--grey-default), var(--bg-opacity));
+  --bg-secondary: rgba(var(--grey-dark), var(--bg-opacity));
+  --bg-color: var(--bg-default);
+
+  --text-opacity: 1;
+  --text-default: rgba(var(--white), var(--text-opacity));
+  --text-secondary: rgba(var(--white), var(--text-opacity));
+  --text-color: var(--text-default);
+
+  --shadow-opacity: 1;
+  --shadow-color: rgba(var(--black), var(--shadow-opacity));
 }
 
 .scene-wrap {
@@ -34,8 +50,37 @@
   @apply right-4;
 } */
 
+.bg-default {
+  background-color: rgba(var(--grey-default), var(--bg-opacity));
+}
+.bg-secondary {
+  background-color: rgba(var(--grey-dark), var(--bg-opacity));
+}
+.bg-highlight {
+  background-color: rgba(var(--red-light), var(--bg-opacity));
+}
+
+.text-default {
+  background-color: rgba(var(--white), var(--text-opacity));
+}
+.text-secondary {
+  background-color: rgba(var(--white), var(--text-opacity));
+}
+.text-highlight {
+  color: rgba(var(--red-light), var(--text-opacity));
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 3px var(--shadow-color);
+}
+
+.bg-opacity-80 {
+  --bg-opacity: 0.8;
+}
+
 header {
-  background-color: rgb(var(--brown-light));
+  background-color: var(--bg-secondary);
+  color: var(--text-default);
 }
 
 .flag {

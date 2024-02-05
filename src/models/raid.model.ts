@@ -10,6 +10,8 @@ export interface IRaid {
   resources: IResource[];
   startDate: string | number;
   endDate: string | number;
+  bgImageUrl?: string;
+  previewImageUrl?: string;
 }
 
 export interface ILevel {

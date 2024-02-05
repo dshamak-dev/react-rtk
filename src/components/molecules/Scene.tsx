@@ -1,5 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faBolt, faDragon } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faDragon, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React, { ReactElement, ReactNode } from "react";
@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 import { AppRouteType, navLinks } from "src/app/AppRouter";
 import { AppLink } from "src/components/AppLink";
 import { ResourceIcon } from "src/components/atoms/ResourceIcon";
-import { ResourceValue } from "src/components/atoms/ResourceValue";
-import { selector as appSelector } from "src/store/app.store";
+import { UserResourceValue } from "src/components/atoms/UserResourceValue";
+import { selector as appSelector } from "src/app/app.store";
 import { selector as userSelector } from "src/namespaces/user/user.store";
 
 interface Props {
@@ -43,14 +43,20 @@ export const Scene: React.FC<Props> = ({
           <div>
             <div className="flex items-center gap-2">
               <ResourceIcon type="energy" />
-              <ResourceValue type="energy" />
+              <UserResourceValue type="energy" />
             </div>
           </div>
         </header>
-        <div className="h-full overflow-y-auto pb-16">{children}</div>
+        <div className="h-full overflow-y-auto">{children}</div>
       </div>
       {navigation ? (
-        <nav className="fixed bottom-0 left-0 w-full flex justify-center gap-8 items-end px-4">
+        <nav
+          className={classNames(
+            "fixed left-0 top-0",
+            "flex flex-col justify-center gap-4 items-start",
+            "h-full py-12"
+          )}
+        >
           {navLinks.map((it, index) => {
             const isActive = pathname === it.href;
 
@@ -58,12 +64,13 @@ export const Scene: React.FC<Props> = ({
               <AppLink
                 key={index}
                 to={it.href}
-                className={classNames("p-4", {
-                  "bg-white text-black": isActive,
+                className={classNames("flex flex-col p-2", {
+                  "bg-highlight text-black": isActive,
                   "bg-black text-white": !isActive,
                 })}
               >
-                {it.text}
+                <FontAwesomeIcon icon={it.icon || faLink} className="text-xl" />
+                <span className="text-xs">{it.text}</span>
               </AppLink>
             );
           })}

@@ -18,4 +18,15 @@ describe("Item", () => {
     expect(items[0].id).toBe(mockedPotion.id);
     expect(items[0].quantity).toBe(mockedPotion.quantity);
   });
+
+  test("should append to existing list", () => {
+    const currentItems = [mockedPotion];
+    const items: IItem[] = appendItems(currentItems, [mockedPotion]);
+
+    const expectedQuantity = mockedPotion.quantity * 2; 
+
+    expect(items.length).toBe(1);
+    expect(items[0].id).toBe(mockedPotion.id);
+    expect(items[0].quantity).toBe(expectedQuantity);
+  });
 });

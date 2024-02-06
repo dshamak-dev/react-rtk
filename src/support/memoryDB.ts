@@ -16,6 +16,12 @@ export class MemoryDB<T> {
     this.name = name;
   }
 
+  async reset() {
+    this._table = null;
+
+    this.save();
+  }
+
   async connect(): Promise<boolean> {
     const record = this._storage.getItem(this.name);
 

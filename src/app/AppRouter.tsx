@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 //   redirect,
 // } from "react-router-dom";
 import Battle from "src/pages/battle/Battle.page";
-import { CampPage } from "src/pages/camp/page";
+import { CampPage } from "src/pages/camp/Camp.page";
 import ItemsPage from "src/pages/items/Items.page";
 import { LobbyPage } from "src/pages/lobby/Lobby.page";
 import Shop from "src/pages/shop/Shop.page";

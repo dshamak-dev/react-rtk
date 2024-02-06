@@ -17,6 +17,12 @@ export const getUser = async (): Promise<IUser> => {
   return user || new User();
 };
 
+export const resetUser = async (): Promise<IUser> => {
+  await database.reset();
+
+  return getUser();
+};
+
 export const updateUser = async (payload: Object): Promise<IUser> => {
   const user = await database.set(payload);
 

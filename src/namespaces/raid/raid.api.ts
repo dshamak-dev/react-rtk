@@ -2,25 +2,31 @@ import { IRaid } from "src/models/raid.model";
 import { generateRaids } from "src/pages/lobby/lobby.factory";
 import { LocalDB } from "src/support/localDB";
 
-const db = new LocalDB<IRaid>("raids");
-db.connect();
+const database = new LocalDB<IRaid>("raids");
+database.connect();
 
 export const getRaids = async (): Promise<IRaid[]> => {
-  const table = db.table;
+  const table = database.table;
 
   if (!table?.items?.length) {
-    await db.set({
+    await database.set({
       items: generateRaids(),
     });
   }
 
-  const items = await db.getItems();
+  const items = await database.getItems();
 
   return items;
 };
 
+export const resetRaids = async (): Promise<IRaid[]> => {
+  await database.reset();
+
+  return getRaids();
+};
+
 export const getRaid = async (id: string): Promise<IRaid> => {
-  const table = db.table;
+  const table = database.table;
 
   const raid = table?.items?.find((it) => it.id === id);
 
@@ -31,7 +37,7 @@ export const updateRaid = async (
   id: IRaid["id"],
   payload: Object
 ): Promise<IRaid> => {
-  const table = db.table;
+  const table = database.table;
 
   const items = table.items || [];
   const targetIndex = items.findIndex((it) => it.id === id);
@@ -39,8 +45,8 @@ export const updateRaid = async (
   if (targetIndex !== -1) {
     items.splice(targetIndex, 1, Object.assign(items[targetIndex], payload));
 
-    await db.set({ items });
+    await database.set({ items });
   }
 
-  return db.table.items.find((it) => it.id === id);
+  return database.table.items.find((it) => it.id === id);
 };

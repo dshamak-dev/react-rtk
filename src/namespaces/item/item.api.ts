@@ -11,6 +11,12 @@ export const getItems = async (): Promise<IItem[]> => {
   return items || [];
 };
 
+export const resetItems = async (): Promise<IItem[]> => {
+  await database.reset();
+
+  return database.getItems();
+};
+
 export const addItems = async (payload: IItem[]): Promise<IItem[]> => {
   const items = await database.getItems();
 

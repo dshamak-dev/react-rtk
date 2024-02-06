@@ -42,6 +42,12 @@ export class LocalDB<T> {
     return true;
   }
 
+  async reset() {
+    this._table = null;
+
+    this.save();
+  }
+
   async getItems(query = null): Promise<T[]> {
     const items = this.items.filter((it) => {
       if (!query) {

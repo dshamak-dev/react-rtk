@@ -2,16 +2,31 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { shopSelector } from "src/store/shop.store";
 import { Scene } from "src/components/molecules/Scene";
-import { getRaid } from "src/pages/lobby/lobby.api";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
+import { faAward, faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 import { dateDifference, timeToDateText } from "src/support/time.support";
 import { ResourceIcon } from "src/components/atoms/ResourceIcon";
+import { Button } from "src/components/Button";
+import { ResourceList } from "src/namespaces/resource/components/ResourceList";
+import { Duration } from "src/components/atoms/Duration";
+import { AwardPreview } from "src/components/molecules/AwardPreview";
+import { LevelCard } from "src/namespaces/level/components/LevelCard";
+import { RaidStartButton } from "src/namespaces/raid/components/RaidStartButton";
+import { getRaid } from "src/namespaces/raid/raid.api";
 
 export const RaidPage = ({ id }) => {
   const dispatch = useDispatch();
   const [raid, setRaid] = useState(null);
+
+  const {
+    name,
+    bgImageUrl,
+    previewImageUrl,
+    endDate,
+    resources = [],
+    levels = [],
+  } = raid || {};
 
   const handleLoad = async () => {
     if (!id) {
@@ -30,9 +45,6 @@ export const RaidPage = ({ id }) => {
     if (!raid) {
       return <div>no raid found</div>;
     }
-
-    const { name, bgImageUrl, previewImageUrl, endDate, resources = [] } = raid;
-    const timeLeft = timeToDateText(dateDifference(Date.now(), endDate));
 
     return (
       <div
@@ -75,39 +87,25 @@ export const RaidPage = ({ id }) => {
         <div
           className={classNames(
             "relative z-10",
-            "flex flex-col items-center gap-2",
+            "flex flex-col items-center gap-4",
             "p-4 bg-black/40"
           )}
         >
           <div className="flex flex-col items-center text-center">
+            <Duration start={null} end={endDate} />
             <h2 data-id={id} className="uppercase text-3xl text-shadow">
               {name}
             </h2>
-            <p
-              className={classNames(
-                "flex items-center gap-2",
-                "w-fit px-2 py-1 rounded-xl",
-                "text-xs bg-highlight text-black bg-default bg-opacity-80"
-              )}
-            >
-              <span className="text-xs">
-                <FontAwesomeIcon icon={faHourglassHalf} />
-              </span>
-              <span>{timeLeft || "ENDED"}</span>
-            </p>
           </div>
-          <div className={classNames("py-2", "text-center")}>levels</div>
-          {resources ? (
-            <div className="flex gap-2 px-2 py-1 bg-white/80 text-black rounded-md items-center">
-              <span className="capitalize">award:</span>
-              {resources.map((it) => (
-                <div key={it.type} className="flex gap-1 items-center">
-                  <span>{it.value}</span>
-                  <ResourceIcon type={it.type} />
-                </div>
-              ))}
+          {resources ? <AwardPreview resources={resources} /> : null}
+          {levels?.length ? (
+            <div className={classNames("py-2", "text-center")}>
+              {levels.map((it, index) => {
+                return <LevelCard key={it.id || index} level={it} />;
+              })}
             </div>
           ) : null}
+          <RaidStartButton raid={raid} />
         </div>
       </div>
     );

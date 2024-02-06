@@ -11,11 +11,13 @@ import {
 
 interface Props extends ButtonProps {
   resources: IResource[];
+  onSubmit?: () => void;
 }
 
 export const ClaimResourcesButton: React.FC<Props> = ({
   resources,
   children,
+  onSubmit,
   ...other
 }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,10 @@ export const ClaimResourcesButton: React.FC<Props> = ({
     const updatedUser = await postUserResources(resources);
 
     dispatch(userActions.set(updatedUser));
+
+    if (onSubmit) {
+      onSubmit();
+    }
   };
 
   const handleClick = useCallback(() => {

@@ -1,28 +1,2 @@
-import { IRaid } from "src/models/raid.model";
-import { generateRaids } from "src/pages/lobby/lobby.factory";
-import { LocalDB } from "src/support/localDB";
+export const getLobby = () => {};
 
-const db = new LocalDB<IRaid>("raids");
-db.connect();
-
-export const getRaids = async (): Promise<IRaid[]> => {
-  const table = db.table;
-
-  if (!table?.items?.length) {
-    await db.set({
-      items: generateRaids(),
-    });
-  }
-
-  const items = await db.getItems();
-
-  return items;
-};
-
-export const getRaid = async (id: string): Promise<IRaid> => {
-  const table = db.table;
-
-  const raid = table?.items?.find((it) => it.id === id);
-
-  return raid;
-};

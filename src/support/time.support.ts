@@ -31,7 +31,7 @@ export const isDateBefore = (
   }
 
   const timeA = new Date(a).getTime();
-  const timeB = new Date(a).getTime();
+  const timeB = new Date(b).getTime();
 
   return timeA < timeB;
 };
@@ -77,9 +77,19 @@ export const timeToDateText = (date: string | number) => {
   if (hours) {
     parts.push(`${hours}h`);
   }
-  if (minutes) {
+  if (!days && minutes) {
     parts.push(`${minutes}m`);
   }
 
   return parts.join(" ");
+};
+
+export const addTime = (
+  start: string | number,
+  { days = 0, hours = 0, minutes = 0 }
+): string => {
+  const startTime = new Date(start).getTime();
+  let duration = days * msInDay + hours * msInHour + minutes * msInMinute;
+
+  return new Date(startTime + duration).toISOString();
 };

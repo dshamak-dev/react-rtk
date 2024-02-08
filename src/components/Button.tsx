@@ -8,7 +8,7 @@ export const Button: React.FC<ButtonProps> = ({ children, className = null, ...o
     <button
       {...other}
       className={classNames(
-        "border bg-sky-500 px-8 py-2 rounded uppercase",
+        "bg-highlight px-8 py-2 rounded uppercase",
         className
       )}
     >

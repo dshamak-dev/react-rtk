@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
+import { handleNavigate } from "src/app/AppRouter";
 import { Button } from "src/components/Button";
 import { ClaimResourcesButton } from "src/components/molecules/ClaimResourcesButton";
+import { ILevel } from "src/namespaces/level/level.model";
 import { updateRaid } from "src/namespaces/raid/raid.api";
+import { postSession } from "src/namespaces/session/session.api";
+import { deleteUserResources } from "src/namespaces/user/user.api";
 import { addTime, isDateAfter, isDateBefore } from "src/support/time.support";
 
 export const RaidStartButton = ({ raid }) => {
@@ -15,9 +19,9 @@ export const RaidStartButton = ({ raid }) => {
     return !hasStarted || hasEnded;
   }, [raid.startDate, raid.endDate]);
 
-  const nextLevel = useMemo(() => {
+  const nextLevel: ILevel = useMemo(() => {
     const incomplete = raid.levels?.find((it) => {
-      return !it.ready;
+      return !it.completed;
     });
 
     return incomplete;
@@ -50,5 +54,17 @@ export const RaidStartButton = ({ raid }) => {
     );
   }
 
-  return <Button>Start</Button>;
+  const handleNavigateLevel = async () => {
+    const session = await postSession(nextLevel);
+
+    if (!session) {
+      return;
+    }
+
+    await deleteUserResources(nextLevel.cost);
+
+    handleNavigate('session', { id: session.id });
+  };
+
+  return <Button onClick={handleNavigateLevel}>Start</Button>;
 };

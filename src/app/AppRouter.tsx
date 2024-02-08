@@ -23,6 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { RaidPage } from "src/pages/raid/Raid.page";
+import { SessionPage } from "src/pages/session/Session.page";
 
 export type AppRouteType =
   | "items"
@@ -30,6 +31,7 @@ export type AppRouteType =
   | "lobby"
   | "raid"
   | "camp"
+  | "session"
   | "shop";
 
 export const navLinks: { text: string; href: AppRouteType; icon: IconProp }[] =
@@ -39,11 +41,11 @@ export const navLinks: { text: string; href: AppRouteType; icon: IconProp }[] =
       href: "camp",
       icon: faCampground,
     },
-    {
-      text: "items",
-      href: "items",
-      icon: faBriefcase,
-    },
+    // {
+    //   text: "items",
+    //   href: "items",
+    //   icon: faBriefcase,
+    // },
     {
       text: "shop",
       href: "shop",
@@ -112,6 +114,9 @@ export const AppRouter = () => {
     }
     case "raid": {
       return <RaidPage id={query?.id} />;
+    }
+    case "session": {
+      return <SessionPage id={query?.id} />;
     }
     default:
     case "camp": {

@@ -1,3 +1,5 @@
+import { IResource } from "src/models/resource.model";
+
 export type ItemCategoryType = "weapon" | "potion" | "armor" | 'resource';
 
 
@@ -22,4 +24,5 @@ export interface IItem {
   category: string;
   quantity: number;
   quality?: ItemQualityType;
+  effects?: IResource[];
 }

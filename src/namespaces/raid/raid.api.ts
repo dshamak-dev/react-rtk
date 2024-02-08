@@ -1,6 +1,7 @@
 import { IRaid } from "src/models/raid.model";
-import { generateRaids } from "src/pages/lobby/lobby.factory";
+import { generateRaids } from "src/namespaces/raid/raid.factory";
 import { LocalDB } from "src/support/localDB";
+import { concatObjects } from "src/support/object.support";
 
 const database = new LocalDB<IRaid>("raids");
 database.connect();
@@ -49,4 +50,24 @@ export const updateRaid = async (
   }
 
   return database.table.items.find((it) => it.id === id);
+};
+
+export const updateRaidLevel = async (raidId: IRaid["id"], payload) => {
+  const raid = await getRaid(raidId);
+
+  if (!raid) {
+    return null;
+  }
+
+  raid.levels = raid.levels.reduce((prev, it) => {
+    let level = it;
+
+    if (it.id === payload.id) {
+      level = concatObjects(it, payload);
+    }
+
+    return [...prev, level];
+  }, []);
+
+  return updateRaid(raidId, raid);
 };

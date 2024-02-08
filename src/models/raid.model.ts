@@ -1,4 +1,5 @@
 import { IResource } from "src/models/resource.model";
+import { ILevel, ILevelPrefab } from "src/namespaces/level/level.model";
 import { randomId } from "src/support/random.support";
 import { isDateBefore } from "src/support/time.support";
 
@@ -12,12 +13,6 @@ export interface IRaid {
   endDate: string | number;
   bgImageUrl?: string;
   previewImageUrl?: string;
-}
-
-export interface ILevel {
-  name: string;
-  type: string;
-  resources: IResource[];
 }
 
 export class Raid implements IRaid {
@@ -37,7 +32,11 @@ export class Raid implements IRaid {
     Object.assign(this, props);
 
     if (!this.id) {
-      this.id = randomId();
+      const id = this.id = randomId();
+
+      this.levels.forEach((level) => {
+        level.raidId = id;
+      });
     }
   }
 }

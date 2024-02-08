@@ -46,6 +46,10 @@ export const RaidPage = ({ id }) => {
       return <div>no raid found</div>;
     }
 
+    const nextLevelIndex = raid.levels.findIndex((it) => {
+      return !it.claimed;
+    });
+
     return (
       <div
         className={classNames(
@@ -99,9 +103,12 @@ export const RaidPage = ({ id }) => {
           </div>
           {resources ? <AwardPreview resources={resources} /> : null}
           {levels?.length ? (
-            <div className={classNames("py-2", "text-center")}>
+            <div className={classNames("flex items-center gap-4", "py-2", "text-center")}>
               {levels.map((it, index) => {
-                return <LevelCard key={it.id || index} level={it} />;
+                const isCompleted = index < nextLevelIndex;
+                const isActive = index === nextLevelIndex;
+
+                return <LevelCard key={it.id || index} level={it} active={isActive} completed={isCompleted}  />;
               })}
             </div>
           ) : null}

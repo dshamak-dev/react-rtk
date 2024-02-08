@@ -11,7 +11,12 @@ import {
   userResourcesSelector,
   selector as userSelector,
 } from "src/namespaces/user/user.store";
-import { deleteUserResources, postUserItems, postUserResources } from "src/namespaces/user/user.api";
+import {
+  deleteUserResources,
+  postUserItems,
+  postUserResources,
+} from "src/namespaces/user/user.api";
+import { IResource } from "src/models/resource.model";
 
 export const ShopListItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -72,7 +77,15 @@ export const ShopListItem = ({ item }) => {
 
       dispatch(userActions.set(updatedUser));
     } else {
-      const updatedUser = await postUserItems([transaction]);
+      const claimedResources: IResource[] = [];
+
+      items.forEach((item) => {
+        if (item.effects) {
+          claimedResources.push(...item.effects);
+        }
+      });
+      // const updatedUser = await postUserItems([transaction]);
+      const updatedUser = await postUserResources(claimedResources);
 
       dispatch(userActions.set(updatedUser));
     }

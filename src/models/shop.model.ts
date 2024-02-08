@@ -11,7 +11,9 @@ export interface IShop {
   list: IShopItem[];
 }
 
-export interface IShopItem extends IItem {}
+export interface IShopItem extends IItem {
+  price?: IResource[];
+}
 
 export class ShopItem implements IShopItem {
   id?: string;

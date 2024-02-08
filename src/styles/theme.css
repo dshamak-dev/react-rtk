@@ -29,6 +29,8 @@
 
   --shadow-opacity: 1;
   --shadow-color: rgba(var(--black), var(--shadow-opacity));
+
+  --border-opacity: 1;
 }
 
 .scene-wrap {
@@ -69,6 +71,11 @@
 .text-highlight {
   color: rgba(var(--red-light), var(--text-opacity));
 }
+
+.border-highlight {
+  border-color: rgba(var(--red-light), var(--border-opacity));
+}
+
 
 .text-shadow {
   text-shadow: 1px 1px 3px var(--shadow-color);

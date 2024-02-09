@@ -1,9 +1,10 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEquals, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React, {
   FC,
   PropsWithoutRef,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -133,18 +134,15 @@ export function SPRGame({ session, onChange }) {
     }
   }, [JSON.stringify(state)]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const value = new FormData(e.target).get("value") as FigureType;
+  const handleSelect = useCallback((selection: FigureType) => {
     const opponent = randomArrayItem(options).value;
 
-    const isMatch = value === opponent;
+    const isMatch = selection === opponent;
 
     setState((prev) => {
       let win = prev.win || 0;
       let lost = prev.lost || 0;
-      const isWin = !isMatch && validateFigures(value, opponent);
+      const isWin = !isMatch && validateFigures(selection, opponent);
       const isLost = !isMatch && !isWin;
 
       if (isWin) {
@@ -157,9 +155,32 @@ export function SPRGame({ session, onChange }) {
         lost += 1;
       }
 
-      return concatObjects(prev, { completed, win, lost, selection: value, opponent });
+      return concatObjects(prev, { completed, win, lost, selection, opponent });
     });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const value = new FormData(e.target).get("value") as FigureType;
+    handleSelect(value);
   };
+
+  const statusIcon = useMemo(() => {
+    if (!state?.selection) {
+      return faMinus;
+    }
+
+    const isMatch = state.selection === state.opponent;
+
+    if (isMatch) {
+      return faEquals;
+    }
+
+    const isOk = validateFigures(state.selection, state.opponent);
+
+    return isOk ? faCheck : faTimes;
+  }, [state]);
 
   const controls = useMemo(() => {
     if (!state) {
@@ -168,26 +189,33 @@ export function SPRGame({ session, onChange }) {
 
     if (!state.selection) {
       return (
-        <form
-          onSubmit={handleSubmit}
+        <div
           className={classNames(
             "flex flex-col items-center justify-center gap-4"
           )}
         >
-          <select defaultValue="" className="text-black" name="value">
-            <option disabled value="">
-              select figure
-            </option>
+          <h3>Select a figure</h3>
+          <div className={classNames("flex items-center justify-center gap-4")}>
             {options.map(({ value, text }) => {
               return (
-                <option key={value} value={value}>
-                  {text}
-                </option>
+                <div
+                  key={value}
+                  onClick={() => handleSelect(value)}
+                  className={classNames(
+                    "flex flex-col items-center justify-center gap-1",
+                    "rounded-md p-4 bg-white text-black"
+                  )}
+                >
+                  <img
+                    src={FigurePreview[value]}
+                    className={classNames("w-12")}
+                  />
+                  <div>{text}</div>
+                </div>
               );
             })}
-          </select>
-          <Button>confirm</Button>
-        </form>
+          </div>
+        </div>
       );
     }
 
@@ -195,12 +223,12 @@ export function SPRGame({ session, onChange }) {
     let text = isMatch ? "match" : null;
 
     if (!text) {
-      text = validateFigures(state.selection, state.opponent) ? "won" : "lost";
+      text = validateFigures(state.selection, state.opponent) ? "you won" : "you lost";
     }
 
     return (
-      <div>
-        <h2>{text}</h2>
+      <div className={classNames("flex flex-col items-center gap-2")}>
+        <h2 className="text-center uppercase">{text}</h2>
         <Button onClick={handleContinue}>ok</Button>
       </div>
     );
@@ -223,7 +251,7 @@ export function SPRGame({ session, onChange }) {
       <div className={classNames("flex items-center justify-center gap-4")}>
         <GameFigure figure={state.selection} />
         <span>
-          <FontAwesomeIcon icon={faTimes} className="text-highlight" />
+          <FontAwesomeIcon icon={statusIcon} className="text-highlight" />
         </span>
         <GameFigure figure={state.opponent} />
       </div>

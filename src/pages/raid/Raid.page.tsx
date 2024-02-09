@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { shopSelector } from "src/store/shop.store";
 import { Scene } from "src/components/molecules/Scene";
 import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAward, faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
-import { dateDifference, timeToDateText } from "src/support/time.support";
-import { ResourceIcon } from "src/components/atoms/ResourceIcon";
-import { Button } from "src/components/Button";
-import { ResourceList } from "src/namespaces/resource/components/ResourceList";
 import { Duration } from "src/components/atoms/Duration";
 import { AwardPreview } from "src/components/molecules/AwardPreview";
 import { LevelCard } from "src/namespaces/level/components/LevelCard";

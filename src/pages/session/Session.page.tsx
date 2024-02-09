@@ -59,7 +59,7 @@ export const SessionPage = ({ id }) => {
     await postUserResources(level.resources);
 
     await updateRaidLevel(
-      id,
+      _data.raidId,
       concatObjects(level, { claimed: true, completed: true })
     );
 
@@ -67,6 +67,10 @@ export const SessionPage = ({ id }) => {
   };
 
   const handleLeave = () => {
+    if (session?.raidId) {
+      return handleBack();
+    }
+
     handleNavigate("lobby");
   };
 

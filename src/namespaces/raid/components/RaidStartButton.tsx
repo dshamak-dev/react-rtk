@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { handleNavigate } from "src/app/AppRouter";
 import { Button } from "src/components/Button";
 import { ClaimResourcesButton } from "src/components/molecules/ClaimResourcesButton";
+import { PaymentButton } from "src/components/molecules/PaymentButton";
 import { ILevel } from "src/namespaces/level/level.model";
 import { updateRaid } from "src/namespaces/raid/raid.api";
 import { postSession } from "src/namespaces/session/session.api";
@@ -63,8 +64,12 @@ export const RaidStartButton = ({ raid }) => {
 
     await deleteUserResources(nextLevel.cost);
 
-    handleNavigate('session', { id: session.id });
+    handleNavigate("session", { id: session.id });
   };
 
-  return <Button onClick={handleNavigateLevel}>Start</Button>;
+  return (
+    <PaymentButton resources={nextLevel.cost} onSubmit={handleNavigateLevel}>
+      Start
+    </PaymentButton>
+  );
 };

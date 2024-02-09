@@ -1,5 +1,6 @@
 import {
   faAngleDown,
+  faCheck,
   faDungeon,
   faHammer,
   faHandScissors,
@@ -18,15 +19,19 @@ interface Props {
   active?: boolean;
 }
 
-export const LevelCard: React.FC<Props> = ({ level, completed, active }) => {
+export const LevelCard: React.FC<Props> = ({ level, active }) => {
   if (!level) {
     return null;
   }
 
-  const { name, type } = level;
+  const { name, type, completed } = level;
 
   const levelIcon = useMemo(() => {
-    if (!completed && !active) {
+    if (completed) {
+      return faCheck;
+    }
+
+    if (!active) {
       return faLock;
     }
 
@@ -40,7 +45,7 @@ export const LevelCard: React.FC<Props> = ({ level, completed, active }) => {
         "p-2",
         "text-2xl",
         {
-          "opacity-50": completed || !active,
+          "opacity-50": !completed && !active,
           "text-white bg-black/50": !active,
           "border-2 border-white text-white bg-black": active,
         }

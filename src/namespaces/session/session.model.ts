@@ -10,6 +10,7 @@ export interface ISession {
   raidId: IRaid['id'];
   completed?: boolean;
   claimed?: boolean;
+  state?: Object;
 }
 
 export class GameSession implements ISession {

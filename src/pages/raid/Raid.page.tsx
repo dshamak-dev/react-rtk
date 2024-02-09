@@ -98,10 +98,9 @@ export const RaidPage = ({ id }) => {
           {levels?.length ? (
             <div className={classNames("flex items-center gap-4", "py-2", "text-center")}>
               {levels.map((it, index) => {
-                const isCompleted = index < nextLevelIndex;
                 const isActive = index === nextLevelIndex;
 
-                return <LevelCard key={it.id || index} level={it} active={isActive} completed={isCompleted}  />;
+                return <LevelCard key={it.id || index} level={it} active={isActive}  />;
               })}
             </div>
           ) : null}

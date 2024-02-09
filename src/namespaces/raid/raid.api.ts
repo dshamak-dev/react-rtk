@@ -1,5 +1,5 @@
 import { IRaid } from "src/models/raid.model";
-import { generateRaids } from "src/namespaces/raid/raid.factory";
+import { generateRaids, generateTutorialRaid } from "src/namespaces/raid/raid.factory";
 import { LocalDB } from "src/support/localDB";
 import { concatObjects } from "src/support/object.support";
 
@@ -50,6 +50,27 @@ export const updateRaid = async (
   }
 
   return database.table.items.find((it) => it.id === id);
+};
+
+export const deleteRaid = async (id) => {
+  const table = database.table;
+
+  let isTutorialRaid = false;
+  const items = (table.items || []).filter((it) => {
+    const match = it.id === id
+
+    if (match && it.name === 'training dungeon') {
+      isTutorialRaid = true;
+    }
+
+    return it.id !== id;
+  });
+  
+  if (isTutorialRaid) {
+    items.unshift(generateTutorialRaid());
+  }
+
+  await database.set({ items });
 };
 
 export const updateRaidLevel = async (raidId: IRaid["id"], payload) => {

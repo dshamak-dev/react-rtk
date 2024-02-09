@@ -84,23 +84,24 @@ export const SessionPage = ({ id }) => {
 
   return (
     <Scene
-      name={`session ${session?.levelType || ""}`}
+      name={`${session?.levelType || "game"}`}
       icon={pageIcon}
       navigation={false}
     >
       <div
         className={classNames("relative h-full", "flex flex-col", "bg-default")}
       >
-        <Button
+        <div
           className={classNames(
             "absolute right-0 top-0",
-            "flex gap-2 items-center justify-center p-4"
+            "flex gap-2 items-center justify-center p-2",
+            "text-highlight"
           )}
           onClick={handleLeave}
         >
           <span>leave</span>
           <FontAwesomeIcon icon={faTimes} />
-        </Button>
+        </div>
 
         <div
           className={classNames("h-full", "flex items-center justify-center")}

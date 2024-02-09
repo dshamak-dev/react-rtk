@@ -1,4 +1,9 @@
-import { faCheck, faEquals, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faEquals,
+  faMinus,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React, {
@@ -130,9 +135,17 @@ export function SPRGame({ session, onChange }) {
     }
 
     if (onChange && !compareObject(state, session?.state)) {
-      onChange(state);
+      onChange({ state });
     }
   }, [JSON.stringify(state)]);
+
+  const handleEnd = () => {
+    onChange({ completed: state.completed, state });
+  };
+
+  const canPlay = useMemo(() => {
+    return !state?.completed;
+  }, [state?.completed]);
 
   const handleSelect = useCallback((selection: FigureType) => {
     const opponent = randomArrayItem(options).value;
@@ -223,7 +236,9 @@ export function SPRGame({ session, onChange }) {
     let text = isMatch ? "match" : null;
 
     if (!text) {
-      text = validateFigures(state.selection, state.opponent) ? "you won" : "you lost";
+      text = validateFigures(state.selection, state.opponent)
+        ? "you won"
+        : "you lost";
     }
 
     return (
@@ -242,20 +257,35 @@ export function SPRGame({ session, onChange }) {
     <div
       className={classNames("flex flex-col items-center justify-center gap-4")}
     >
-      <div className={classNames("flex items-center justify-center gap-4")}>
-        <span>Wins</span>
-        <span>{state.win || 0}</span>
-        <span>/</span>
-        <span>{targetWins}</span>
+      <div
+        className={classNames(
+          "flex flex-col items-center justify-center gap-1"
+        )}
+      >
+        <div>Score</div>
+        <div className={classNames("flex items-center justify-center gap-4")}>
+          <span>{state.win || 0}</span>
+          <span>/</span>
+          <span>{targetWins}</span>
+        </div>
       </div>
-      <div className={classNames("flex items-center justify-center gap-4")}>
-        <GameFigure figure={state.selection} />
-        <span>
-          <FontAwesomeIcon icon={statusIcon} className="text-highlight" />
-        </span>
-        <GameFigure figure={state.opponent} />
-      </div>
-      <div>{controls}</div>
+      {canPlay ? (
+        <>
+          <div className={classNames("flex items-center justify-center gap-4")}>
+            <GameFigure figure={state.selection} />
+            <span>
+              <FontAwesomeIcon icon={statusIcon} className="text-highlight" />
+            </span>
+            <GameFigure figure={state.opponent} />
+          </div>
+          <div>{controls}</div>
+        </>
+      ) : (
+        <div>
+          <div>{state?.completed ? "you won" : "Game Over"}</div>
+          <Button onClick={handleEnd}>go back</Button>
+        </div>
+      )}
     </div>
   );
 }

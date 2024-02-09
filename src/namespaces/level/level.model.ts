@@ -8,6 +8,7 @@ export interface ILevelPrefab {
   resources: IResource[];
   cost: IResource[];
   raidId: IRaid['id'];
+  completed?: boolean;
 }
 
 export interface ILevel extends ILevelPrefab {

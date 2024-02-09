@@ -4,7 +4,7 @@ import { Button } from "src/components/Button";
 import { ClaimResourcesButton } from "src/components/molecules/ClaimResourcesButton";
 import { PaymentButton } from "src/components/molecules/PaymentButton";
 import { ILevel } from "src/namespaces/level/level.model";
-import { updateRaid } from "src/namespaces/raid/raid.api";
+import { deleteRaid } from "src/namespaces/raid/raid.api";
 import { postSession } from "src/namespaces/session/session.api";
 import { deleteUserResources } from "src/namespaces/user/user.api";
 import { addTime, isDateAfter, isDateBefore } from "src/support/time.support";
@@ -36,11 +36,11 @@ export const RaidStartButton = ({ raid }) => {
 
   const handleCloseRaid = async () => {
     setBusy(true);
-    await updateRaid(raid.id, {
-      startDate: raid.endDate,
-      endDate: addTime(raid.endDate, { days: 1 }),
-    });
+
+    await deleteRaid(raid.id);
     setBusy(false);
+
+    handleNavigate('lobby');
   };
 
   if (!nextLevel) {

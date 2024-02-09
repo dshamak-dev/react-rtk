@@ -1,4 +1,5 @@
 import React, { FC, PropsWithoutRef, useMemo } from "react";
+import { HammerGame } from "src/namespaces/game/components/HammerGame";
 import { SPRGame } from "src/namespaces/game/components/SPRGame";
 import { ISession } from "src/namespaces/session/session.model";
 
@@ -11,6 +12,9 @@ export function Game({ session, onChange }) {
     switch (session?.levelType) {
       case "spr": {
         return <SPRGame session={session} onChange={onChange} />;
+      }
+      case "hammer": {
+        return <HammerGame sessionId={session?.id} onChange={onChange}  />
       }
       default: {
         return null;

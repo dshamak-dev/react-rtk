@@ -51,9 +51,10 @@ export const updateSession = async (
     return null;
   }
 
-  all[session.id] = concatObjects(session, payload);
+  const update = concatObjects(session, payload);
+  all[session.id] = update;
 
   await database.set(all);
 
-  return copyObject(session);
+  return copyObject(update);
 };
